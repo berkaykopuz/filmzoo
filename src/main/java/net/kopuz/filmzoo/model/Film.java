@@ -1,14 +1,13 @@
 package net.kopuz.filmzoo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
-
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@Table(name = "film")
 public class Film {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -20,16 +19,20 @@ public class Film {
     private String poster;
     private Double rate;
 
+    @OneToMany(mappedBy = "film",
+    fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private Set<Review> reviews = new HashSet<>();
     public Film() {
     }
 
-    public Film(String id, String title, String type, String year, String poster, Double rate) {
-        this.id = id;
+    public Film(String title, String type, String year, String poster, Double rate, Set<Review> reviews) {
         this.title = title;
         this.type = type;
         this.year = year;
         this.poster = poster;
-        this.rate = 0.0;
+        this.rate = rate;
+        this.reviews = reviews;
     }
 
     public Film(String title, String type, String year, String poster) {
@@ -37,7 +40,6 @@ public class Film {
         this.type = type;
         this.year = year;
         this.poster = poster;
-        this.rate = 0.0;
     }
 
     public String getId() {
@@ -64,9 +66,11 @@ public class Film {
         return rate;
     }
 
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
     public void setRate(Double rate) {
         this.rate = rate;
     }
-
-
 }

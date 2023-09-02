@@ -53,8 +53,8 @@
                 <h1 class="fw-bolder">Film Zoo</h1>
                 <p class="lead fw-normal text-muted mb-0">Easy to film rating</p>
             </div>
-            <div th:each="review :${reviews}" class="row gx-5">
-                <div class="col-lg-6">
+            <div  class="row gx-5">
+                <div th:each="review :${reviews}" class="col-lg-6">
                     <div class="position-relative mb-5">
                         <b th:text="${review.username}"></b>
                         <p th:text="${review.comment}" class="h3 fw-bolder text-decoration-none link-dark stretched-link"></p>
@@ -62,15 +62,13 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="position-relative mb-5">
-                        <form th:action="@{/films/rate}" method="post">
-                            <input type="hidden" name="filmId" th:value="${review.filmId}">
-                            <label for="userName">Your Name:</label>
-                            <input type="text" id="userName" name="userName" required><br>
-                            <label for="comment">Your Review:</label>
-                            <textarea id="comment" name="comment" required></textarea><br>
-                            <label>Rate:</label>
-                            <button type="submit" name="action" value="plus">+</button>
-                            <button type="submit" name="action" value="minus">-</button>
+                        <form th:action="@{/films/rate}" th:object="${reviews}" th:method="post">
+                            <input type="hidden" th:field="*{filmDto}" th:value="${films}" />
+                            <label>username</label>
+                            <input type="text" th:field="*{username}" />
+                            <label>comment</label>
+                            <textarea th:field="*{comment}" rows="3" cols="40"></textarea>
+                            <button type="submit">SEND</button>
                         </form>
                     </div>
                 </div>

@@ -1,12 +1,12 @@
 package net.kopuz.filmzoo.dto;
 
-import net.kopuz.filmzoo.model.Review;
 
-public record ReviewDto(String username,
-                        String comment
+
+public record ReviewDto(String id,
+                        String username,
+                        String comment,
+                        FilmDto filmDto
 
 ) {
-    public static ReviewDto convert(Review from){
-        return new ReviewDto(from.getUsername(), from.getComment());
-    }
+
 }
